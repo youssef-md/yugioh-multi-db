@@ -1,7 +1,8 @@
 ## Multi DB YuGiOh Cards
-1- Install docker
+### Installation of dependencies
+1. Install docker
 
-2- Install postgres by running:
+2. Install postgres by running:
 ```
 docker run \
   --name postgres \
@@ -13,7 +14,7 @@ docker run \
   postgres
 ```
 
-3- Install adminer by running:
+3. Install adminer by running:
 ```
 docker run \
   --name adminer \
@@ -24,7 +25,7 @@ docker run \
 ```
 Then login in localhost:8080, where the ```system``` is PostgreSQL, the ```server``` is postgres the ```user``` is the name you entered in ```-e POSTGRES_USER=YourUserHere```, the password is the value you entered in ```-e POSTGRES_PASSWORD=YourPasswordHere``` and the database is ```yugioh```
 
-4- Install mongoDB by running:
+4. Install mongoDB by running:
 ```
 docker run \
   --name mongodb \
@@ -34,7 +35,7 @@ docker run \
   -d \
   mongo
 ```
-5- Install mongodb client: 
+5. Install mongodb client: 
 ```
 docker run \
   --name mongoclient \
@@ -44,10 +45,22 @@ docker run \
   mongoclient/mongoclient
 ```
 Then add a connection into localhost:3000 for the created admin
-6- Create a user in the mongodb for accessing just the created yugioh database:
+6. Create a user in the mongodb for accessing just the created yugioh database:
 ```
 docker exec -it mongodb \
   mongo --host localhost -u admin -p admin --authenticationDatabase admin \
   --eval "db.getSiblingDB('yugioh').createUser({user: 'YourUserName', pwd: 'YourPassword', roles: [{role: 'readWrite', db: 'yugioh'}]})"
 ```
-You can run ```$ docker ps``` to see all the containers that docker is running and to stop a container you can use ```$ docker stop ContainerName```
+
+### Basic cheat sheet
+* ```$ docker ps``` or ```$ docker container ls```: See all the containers that docker is running.
+* ```$ docker stop ContainerName```: Stop a container giving a change to stop it gracefully.
+* ```$ docker start ContainerName```: Start a container that already exists.
+* ```$ docker restart ContainerName```: Restart a container that already exists.
+* ```$ docker pause ContainerName```: Pause a container that already exists.
+* ```$ docker unpause ContainerName```: Unpause a container that already exists.
+* ```$ docker container ls -a```: List all containers.
+* ```$ docker images -a```: List all images.
+* ```$ docker rm ContainerName```: Delete a container.
+* ```$ docker rmi ImageName ```: Delete an image.
+
