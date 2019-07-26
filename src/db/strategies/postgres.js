@@ -1,6 +1,6 @@
 const iCrud = require('./interfaces/interfaceCrud')
 
-class Postgres extends iCRUD { // don't implement all the needed methods from the interface CRUD
+class Postgres extends iCrud {
   constructor() { super() }
 
   create(item) { console.log(`Creating the item ${item.name} in PostgreSQL...`) }

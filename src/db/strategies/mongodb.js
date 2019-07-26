@@ -1,6 +1,6 @@
 const iCrud = require('./interfaces/interfaceCrud')
 
-class MongoDB extends iCRUD { // implements all the needed methods from the interface CRUD
+class MongoDB extends iCrud {
   constructor() { super() }
 
   create(item) { console.log(`Creating the item ${item.name} in MongoDB...`) }

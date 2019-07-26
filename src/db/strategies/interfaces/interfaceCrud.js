@@ -9,4 +9,4 @@ class iCrud { // if an extending class didn't implement one of these methods thr
   delete(id) { throw new NotImplementedException() }
 }
 
-module.exports = iCRUD
+module.exports = iCrud
