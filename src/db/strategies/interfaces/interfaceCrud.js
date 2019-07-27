@@ -7,6 +7,7 @@ class iCrud { // if an extending class didn't implement one of these methods thr
   read(query) { throw new NotImplementedException() }
   update(id, item) { throw new NotImplementedException() }
   delete(id) { throw new NotImplementedException() }
+  isConnected() { throw new NotImplementedException() }
 }
 
 module.exports = iCrud

@@ -5,7 +5,7 @@ class ContextStrategy extends iCrud {
     super()
     this._database = strategy
   }
-
+  isConnected() { return this._database.isConnected() }
   create(item) { return this._database.create(item) }
   read(item) { return this._database.read(item) }
   update(id, item) { return this._database.update(id, item) }
