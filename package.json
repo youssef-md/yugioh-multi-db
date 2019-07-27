@@ -4,7 +4,7 @@
   "description": "1. Install docker",
   "main": "index.js",
   "scripts": {
-    "test": "mocha src/tests"
+    "test": "mocha src/tests -w"
   },
   "repository": {
     "type": "git",

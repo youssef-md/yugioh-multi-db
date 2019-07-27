@@ -41,7 +41,11 @@ class Postgres extends iCrud {
     await this._YuGiOh.sync()
   }
 
-  create(item) { console.log(`Creating the item ${item.name} in PostgreSQL...`) }
+  async create(item) {
+    console.log(`Creating the item ${item.name} in PostgreSQL...`)
+    const { dataValues } = await this._YuGiOh.create(item)
+    return dataValues
+  }
   read(query) { console.log(`Reading the query ${query} in PostgreSQL...`) }
   update(id, item) { console.log(`Updating the item with id ${id} in PostgreSQL...`) }
   delete(id) { console.log(`Deleting the item with id ${id} in PostgreSQL...`) }
