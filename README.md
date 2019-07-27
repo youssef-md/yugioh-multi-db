@@ -52,6 +52,19 @@ docker exec -it mongodb \
   --eval "db.getSiblingDB('yugioh').createUser({user: 'YourUserName', pwd: 'YourPassword', roles: [{role: 'readWrite', db: 'yugioh'}]})"
 ```
 
+7. Install Node JS to use the npm or install yarn
+
+8. In the root folder run:
+```
+$ npm i
+```
+
+9. Change just the strings to your login in /src/dbLogin.js:
+```
+const POSTGRES_USERNAME = 'YOUR POSTGRES USERNAME'
+const POSTGRES_PASSWORD = 'YOUR POSTGRES PASSWORD'
+```
+
 ### Basic cheat sheet
 * ```$ docker ps``` or ```$ docker container ls```: See all the containers that docker is running.
 * ```$ docker stop ContainerName```: Stop a container giving a change to stop it gracefully.
