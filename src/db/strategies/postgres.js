@@ -47,14 +47,8 @@ class Postgres extends iCrud {
   }
 
   async read(query) {
-    if (!query) {
-      console.log(`Reading all cards in PostgreSQL...`)
-      return this._YuGiOh.findAll({ raw: true })
-    }
-    else {
-      console.log(`Reading the query ${query} in PostgreSQL...`)
-      return this._YuGiOh.findAll({ where: query, raw: true })
-    }
+    console.log(`Reading the query ${query} in PostgreSQL...`)
+    return this._YuGiOh.findAll({ where: query, raw: true })
   }
   async update(id, item) {
     console.log(`Updating the item with id ${id} in PostgreSQL...`)
