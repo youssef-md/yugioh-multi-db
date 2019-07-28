@@ -37,7 +37,6 @@ class Postgres extends iCrud {
       freezeTableName: false,
       timestamps: false
     })
-
     await this._YuGiOh.sync()
   }
 
@@ -47,17 +46,20 @@ class Postgres extends iCrud {
     return dataValues
   }
 
-  async read(item) {
-    if (!item) {
+  async read(query) {
+    if (!query) {
       console.log(`Reading all cards in PostgreSQL...`)
-      return await this._YuGiOh.findAll({ raw: true })
+      return this._YuGiOh.findAll({ raw: true })
     }
     else {
-      console.log(`Reading the query ${item} in PostgreSQL...`)
-      return await this._YuGiOh.findAll({ where: { name: item }, raw: true })
+      console.log(`Reading the query ${query} in PostgreSQL...`)
+      return this._YuGiOh.findAll({ where: query, raw: true })
     }
   }
-  update(id, item) { console.log(`Updating the item with id ${id} in PostgreSQL...`) }
+  async update(id, item) {
+    console.log(`Updating the item with id ${id} in PostgreSQL...`)
+    return this._YuGiOh.update(item, { where: { id: id } })
+  }
   delete(id) { console.log(`Deleting the item with id ${id} in PostgreSQL...`) }
 }
 
