@@ -21,4 +21,10 @@ describe('Postgres Strategy', function () {
     delete res.id
     assert.deepEqual(res, MOCK_CARD_CREATE)
   })
+
+  it('Should list a card given its name', async () => {
+    const [res] = await context.read(MOCK_CARD_CREATE.name)
+    delete res.id
+    assert.deepEqual(res, MOCK_CARD_CREATE)
+  })
 })

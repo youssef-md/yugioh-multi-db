@@ -6,7 +6,7 @@ class iCrud { // if an extending class didn't implement one of these methods thr
   connect() { throw new NotImplementedException() }
   isConnected() { throw new NotImplementedException() }
   create(item) { throw new NotImplementedException() }
-  read(query) { throw new NotImplementedException() }
+  read(item) { throw new NotImplementedException() }
   update(id, item) { throw new NotImplementedException() }
   delete(id) { throw new NotImplementedException() }
 }

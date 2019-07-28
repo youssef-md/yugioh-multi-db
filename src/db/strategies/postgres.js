@@ -46,7 +46,17 @@ class Postgres extends iCrud {
     const { dataValues } = await this._YuGiOh.create(item)
     return dataValues
   }
-  read(query) { console.log(`Reading the query ${query} in PostgreSQL...`) }
+
+  async read(item) {
+    if (!item) {
+      console.log(`Reading all cards in PostgreSQL...`)
+      return await this._YuGiOh.findAll({ raw: true })
+    }
+    else {
+      console.log(`Reading the query ${item} in PostgreSQL...`)
+      return await this._YuGiOh.findAll({ where: { name: item }, raw: true })
+    }
+  }
   update(id, item) { console.log(`Updating the item with id ${id} in PostgreSQL...`) }
   delete(id) { console.log(`Deleting the item with id ${id} in PostgreSQL...`) }
 }
