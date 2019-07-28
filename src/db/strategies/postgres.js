@@ -46,15 +46,21 @@ class Postgres extends iCrud {
     return dataValues
   }
 
-  async read(query) {
+  async read(query = {}) {
     console.log(`Reading the query ${query} in PostgreSQL...`)
     return this._YuGiOh.findAll({ where: query, raw: true })
   }
+
   async update(id, item) {
     console.log(`Updating the item with id ${id} in PostgreSQL...`)
     return this._YuGiOh.update(item, { where: { id: id } })
   }
-  delete(id) { console.log(`Deleting the item with id ${id} in PostgreSQL...`) }
+
+  async delete(id) {
+    console.log(`Deleting the item with id ${id} in PostgreSQL...`)
+    const query = id ? { id } : {}
+    return this._YuGiOh.destroy({ where: query })
+  }
 }
 
 module.exports = Postgres

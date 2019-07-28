@@ -10,6 +10,7 @@ const MOCK_CARD_UPDATE = { name: 'Bakura', types: 'DIVINE-BEAST/EFFECT', attribu
 describe('Postgres Strategy', function () {
   this.beforeAll(async () => {
     await context.connect()
+    await context.delete()
     await context.create(MOCK_CARD_UPDATE)
   })
 
@@ -40,5 +41,11 @@ describe('Postgres Strategy', function () {
     deepEqual(statusUpdate, 1)
     const [updatedCard] = await context.read({ id: prevCard.id })
     deepEqual(updatedCard.name, updates.name)
+  })
+
+  it('Should remove a card', async () => {
+    const [card] = await context.read()
+    const res = await context.delete(card.id)
+    deepEqual(res, 1)
   })
 })
