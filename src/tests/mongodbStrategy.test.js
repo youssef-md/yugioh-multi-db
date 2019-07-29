@@ -19,4 +19,9 @@ describe('MongoDB Strategy', async function () {
     const expected = 'Connected'
     deepEqual(res, expected)
   })
+
+  it('Should create a card', async () => {
+    const { name, atk, def } = await context.create(MOCK_CARD_CREATE)
+    deepEqual({ name, atk, def }, { name: MOCK_CARD_CREATE.name, atk: MOCK_CARD_CREATE.atk, def: MOCK_CARD_CREATE.def })
+  })
 })

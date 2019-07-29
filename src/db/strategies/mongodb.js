@@ -13,6 +13,8 @@ class MongoDB extends iCrud {
     this._YuGiOh = null
   }
 
+  async defineMondel() { this._YuGiOh = Mongoose.model('CARD', Card) }
+
   async isConnected() {
     const state = STATUS[this._connection.readyState]
     if (state !== 'Connecting') return state
@@ -27,12 +29,13 @@ class MongoDB extends iCrud {
     })
     this._connection = Mongoose.connection
     this._connection.once('open', () => console.log('Mongodb Database running'))
+    this.defineMondel()
   }
 
-  async defineMondel() { this._YuGiOh = Mongoose.model('CARD', Card) }
-
-
-  create(item) { console.log(`Creating the item ${item.name} in MongoDB...`) }
+  async create(item) {
+    console.log(`Creating the item ${item.name} in MongoDB...`)
+    return await this._YuGiOh.create(item)
+  }
   read(query) { console.log(`Reading the query ${query} in MongoDB...`) }
   update(id, item) { console.log(`Updating the item with id ${id} in MongoDB...`) }
   delete(id) { console.log(`Deleting the item with id ${id} in MongoDB...`) }
