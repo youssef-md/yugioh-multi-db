@@ -7,7 +7,7 @@ const context = new Context(new Mongodb())
 const MOCK_CARD_CREATE = { name: 'Obelisk The Tormentor', types: 'MONSTER', attribute: 'DIVINE', level: 10, atk: '4000', def: '4000' }
 const MOCK_CARD_UPDATE = { name: 'Bakura', types: 'DIVINE-BEAST/EFFECT', attribute: 'DIVINE', level: 10, atk: '?', def: '?' }
 
-describe('Suite for MongoDB', async function () {
+describe('MongoDB Strategy', async function () {
   this.timeout(Infinity)
   this.beforeAll(async () => {
     await context.connect()

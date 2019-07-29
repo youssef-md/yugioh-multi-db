@@ -1,8 +1,9 @@
 const iCrud = require('./interfaces/interfaceCrud')
 const Mongoose = require('mongoose')
+const Card = require('../models/CardMongo')
+
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = require('../../dbLogin')
 const connectionAddress = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017/yugioh`
-
 const STATUS = { 0: 'Disconnected', 1: 'Connected', 2: 'Connecting', 3: 'Disconnecting' }
 
 class MongoDB extends iCrud {
@@ -28,20 +29,7 @@ class MongoDB extends iCrud {
     this._connection.once('open', () => console.log('Mongodb Database running'))
   }
 
-  async defineMondel() {
-    const cardSchema = new Mongoose.Schema({
-      name: {
-        type: String,
-        required: true,
-      },
-      atk: {
-        type: String,
-        required: true,
-      },
-    })
-
-    this._YuGiOh = Mongoose.model('CARD', cardSchema)
-  }
+  async defineMondel() { this._YuGiOh = Mongoose.model('CARD', Card) }
 
 
   create(item) { console.log(`Creating the item ${item.name} in MongoDB...`) }
