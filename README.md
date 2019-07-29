@@ -78,4 +78,3 @@ const MONGODB_PASSWORD = 'YOUR MONGODB PASSWORD'
 * ```$ docker images -a```: List all images.
 * ```$ docker rm ContainerName```: Delete a container.
 * ```$ docker rmi ImageName ```: Delete an image.
-
