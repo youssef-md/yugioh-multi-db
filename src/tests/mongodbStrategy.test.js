@@ -1,17 +1,19 @@
 const { deepEqual } = require('assert')
-const Mongodb = require('../db/strategies/mongodb')
+const Mongodb = require('../db/strategies/mongodb/mongodb')
+const yugiohSchema = require('../db/strategies/mongodb/schemas/yugiohSchema')
 const Context = require('../db/strategies/base/contextStrategy')
 
-const context = new Context(new Mongodb())
 
 const MOCK_CARD_CREATE = { name: 'Obelisk The Tormentor', types: 'MONSTER', attribute: 'DIVINE', level: 10, atk: '4000', def: '4000' }
 const MOCK_CARD_UPDATE = { name: 'Bakura', types: 'DIVINE-BEAST/EFFECT', attribute: 'DIVINE', level: 10, atk: '?', def: '?' }
 let MOCK_HEROI_ID = null
-
-describe('MongoDB Strategy', async function () {
+let context = null
+describe.only('MongoDB Strategy', async function () {
   this.timeout(Infinity)
   this.beforeAll(async () => {
-    await context.connect()
+    const connection = Mongodb.connect()
+    context = new Context(new Mongodb(connection, yugiohSchema))
+
     const res = await context.create(MOCK_CARD_UPDATE)
     MOCK_HEROI_ID = res._id
   })
