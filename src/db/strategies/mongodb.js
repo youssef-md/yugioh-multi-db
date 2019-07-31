@@ -36,7 +36,12 @@ class MongoDB extends iCrud {
     console.log(`Creating the item ${item.name} in MongoDB...`)
     return await this._YuGiOh.create(item)
   }
-  read(query) { console.log(`Reading the query ${query} in MongoDB...`) }
+
+  read(query, skip = 0, limit = 0) { // with pagination
+    console.log(`Reading the query ${query} in MongoDB...`)
+    return this._YuGiOh.find(query).skip(skip).limit(limit)
+  }
+
   update(id, item) { console.log(`Updating the item with id ${id} in MongoDB...`) }
   delete(id) { console.log(`Deleting the item with id ${id} in MongoDB...`) }
 }
