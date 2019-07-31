@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const iCrud = require('./interfaces/interfaceCrud')
+const iCrud = require('../interfaces/interfaceCrud')
 const Card = require('../models/CardPostgres')
 const { POSTGRES_USERNAME, POSTGRES_PASSWORD } = require('../../dbLogin')
 
@@ -33,9 +33,7 @@ class Postgres extends iCrud {
 
   async defineModel() {
     this._YuGiOh = this._driver.define('CARD', Card, {
-      tableName: 'CARD',
-      freezeTableName: false,
-      timestamps: false
+
     })
     await this._YuGiOh.sync()
   }
