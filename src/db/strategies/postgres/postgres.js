@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const iCrud = require('../interfaces/interfaceCrud')
-
 const { POSTGRES_USERNAME, POSTGRES_PASSWORD } = require('../../../dbLogin')
 
 class Postgres extends iCrud {
