@@ -1,29 +1,34 @@
 const Sequelize = require('sequelize')
 const iCrud = require('../interfaces/interfaceCrud')
-const Card = require('../models/CardPostgres')
+
 const { POSTGRES_USERNAME, POSTGRES_PASSWORD } = require('../../dbLogin')
 
 class Postgres extends iCrud {
-  constructor() {
+  constructor(connection, schema) {
     super()
-    this._driver = null
-    this._YuGiOh = null
+    this._connection = connection
+    this._schema = schema
   }
 
-  async connect() {
-    this._driver = new Sequelize(
+  static async defineModel(connection, schema) {
+    const model = connection.define(schema.name, schema.schema, schema.options)
+    await this._schema.sync()
+    return model
+  }
+
+  static async connect() {
+    const connection = new Sequelize(
       'yugioh',
       POSTGRES_USERNAME,
       POSTGRES_PASSWORD,
       { host: 'localhost', dialect: 'postgres', quoteIdentifiers: false, operatorAliases: false }
     )
-
-    await this.defineModel()
+    return connection
   }
 
   async isConnected() {
     try {
-      await this._driver.authenticate()
+      await this._connection.authenticate()
       return true
     } catch (error) {
       console.log('Connection Failed!', error)
@@ -31,33 +36,26 @@ class Postgres extends iCrud {
     }
   }
 
-  async defineModel() {
-    this._YuGiOh = this._driver.define('CARD', Card, {
-
-    })
-    await this._YuGiOh.sync()
-  }
-
   async create(item) {
     console.log(`Creating the item ${item.name} in PostgreSQL...`)
-    const { dataValues } = await this._YuGiOh.create(item)
+    const { dataValues } = await this._schema.create(item)
     return dataValues
   }
 
   async read(query = {}) {
     console.log(`Reading the query ${query} in PostgreSQL...`)
-    return this._YuGiOh.findAll({ where: query, raw: true })
+    return this._schema.findAll({ where: query, raw: true })
   }
 
   async update(id, item) {
     console.log(`Updating the item with id ${id} in PostgreSQL...`)
-    return this._YuGiOh.update(item, { where: { id: id } })
+    return this._schema.update(item, { where: { id: id } })
   }
 
   async delete(id) {
     console.log(`Deleting the item with id ${id} in PostgreSQL...`)
     const query = id ? { id } : {}
-    return this._YuGiOh.destroy({ where: query })
+    return this._schema.destroy({ where: query })
   }
 }
 
