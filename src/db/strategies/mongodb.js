@@ -42,7 +42,11 @@ class MongoDB extends iCrud {
     return this._YuGiOh.find(query).skip(skip).limit(limit)
   }
 
-  update(id, item) { console.log(`Updating the item with id ${id} in MongoDB...`) }
+  update(id, item) {
+    console.log(`Updating the item with id ${id} in MongoDB...`)
+    return this._YuGiOh.updateOne({ _id: id }, { $set: item })
+  }
+
   delete(id) { console.log(`Deleting the item with id ${id} in MongoDB...`) }
 }
 
