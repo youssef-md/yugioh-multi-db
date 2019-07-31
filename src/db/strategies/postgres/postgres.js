@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const iCrud = require('../interfaces/interfaceCrud')
 
-const { POSTGRES_USERNAME, POSTGRES_PASSWORD } = require('../../dbLogin')
+const { POSTGRES_USERNAME, POSTGRES_PASSWORD } = require('../../../dbLogin')
 
 class Postgres extends iCrud {
   constructor(connection, schema) {
@@ -12,7 +12,7 @@ class Postgres extends iCrud {
 
   static async defineModel(connection, schema) {
     const model = connection.define(schema.name, schema.schema, schema.options)
-    await this._schema.sync()
+    await model.sync()
     return model
   }
 
@@ -21,7 +21,7 @@ class Postgres extends iCrud {
       'yugioh',
       POSTGRES_USERNAME,
       POSTGRES_PASSWORD,
-      { host: 'localhost', dialect: 'postgres', quoteIdentifiers: false, operatorAliases: false }
+      { host: 'localhost', dialect: 'postgres', quoteIdentifiers: false, operatorAliases: false, logging: false }
     )
     return connection
   }

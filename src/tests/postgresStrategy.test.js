@@ -1,16 +1,20 @@
 const { deepEqual } = require('assert')
-const Postgres = require('../db/strategies/postgres')
+const Postgres = require('../db/strategies/postgres/postgres')
 const Context = require('../db/strategies/base/contextStrategy')
-
-const context = new Context(new Postgres())
+const yugiohSchema = require('../db/strategies/postgres/schemas/yugiohSchema')
 
 const MOCK_CARD_CREATE = { name: 'Obelisk The Tormentor', types: 'MONSTER', attribute: 'DIVINE', level: 10, atk: '4000', def: '4000' }
 const MOCK_CARD_UPDATE = { name: 'Bakura', types: 'DIVINE-BEAST/EFFECT', attribute: 'DIVINE', level: 10, atk: '?', def: '?' }
 
+let context = null
 describe('Postgres Strategy', function () {
+  this.timeout(Infinity)
+
   this.beforeAll(async () => {
-    await context.connect()
-    await context.delete()
+    const connection = await Postgres.connect()
+    const model = await Postgres.defineModel(connection, yugiohSchema)
+    context = new Context(new Postgres(connection, model))
+
     await context.create(MOCK_CARD_UPDATE)
   })
 
