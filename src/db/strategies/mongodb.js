@@ -47,7 +47,10 @@ class MongoDB extends iCrud {
     return this._YuGiOh.updateOne({ _id: id }, { $set: item })
   }
 
-  delete(id) { console.log(`Deleting the item with id ${id} in MongoDB...`) }
+  delete(id) {
+    console.log(`Deleting the item with id ${id} in MongoDB...`)
+    return this._YuGiOh.deleteOne({ _id: id })
+  }
 }
 
 module.exports = MongoDB

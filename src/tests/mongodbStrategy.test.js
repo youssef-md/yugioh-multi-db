@@ -37,4 +37,9 @@ describe('MongoDB Strategy', async function () {
     const res = await context.update(MOCK_HEROI_ID, { name: 'The Winged Dragon of Ra' })
     deepEqual(res.nModified, 1)
   })
+
+  it('Should delete a card', async () => {
+    const res = await context.delete(MOCK_HEROI_ID)
+    deepEqual(res.n, 1)
+  })
 })
