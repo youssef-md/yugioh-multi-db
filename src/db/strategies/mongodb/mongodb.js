@@ -1,8 +1,8 @@
-const iCrud = require('./interfaces/interfaceCrud')
+const iCrud = require('../interfaces/interfaceCrud')
 const Mongoose = require('mongoose')
-const Card = require('../models/CardMongo')
+const Card = require('../../models/CardMongo')
 
-const { MONGODB_USERNAME, MONGODB_PASSWORD } = require('../../dbLogin')
+const { MONGODB_USERNAME, MONGODB_PASSWORD } = require('../../../dbLogin')
 const connectionAddress = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017/yugioh`
 const STATUS = { 0: 'Disconnected', 1: 'Connected', 2: 'Connecting', 3: 'Disconnecting' }
 

@@ -1,6 +1,6 @@
-const { Schema } = require('mongoose')
+const { Schema, model } = require('mongoose')
 
-const Card = new Schema({
+const yugiohSchema = new Schema({
   name: { type: String, required: true },
   types: { type: String, require: true },
   attribute: { type: String, require: true },
@@ -9,4 +9,4 @@ const Card = new Schema({
   def: { type: String, require: true },
 })
 
-module.exports = Card
+module.exports = model('CARDS', yugiohSchema)
