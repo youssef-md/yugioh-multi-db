@@ -7,7 +7,6 @@ const app = new Hapi.Server({
   port: 5000
 })
 
-main()
 async function main() {
 
   const connection = Mongodb.connect()
@@ -25,4 +24,8 @@ async function main() {
 
   await app.start()
   console.log('Server is running at', app.info.port)
+
+  return app
 }
+
+module.exports = main()
