@@ -2,7 +2,7 @@ const { deepEqual, ok } = require('assert')
 const api = require('../api')
 let app = {}
 
-describe.only('API Cards', function () {
+describe('API Cards', function () {
   this.beforeAll(async () => {
     app = await api
   })
