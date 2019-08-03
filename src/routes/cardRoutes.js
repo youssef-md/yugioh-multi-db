@@ -1,3 +1,4 @@
+const Joi = require('joi')
 const BaseRoute = require('./base/baseRoute')
 
 class CardRoutes extends BaseRoute {
@@ -10,14 +11,26 @@ class CardRoutes extends BaseRoute {
     return {
       path: '/cards',
       method: 'GET',
+      config: {
+        validate: {
+          // payload -> body
+          // headers -> head
+          // params -> na URL :id
+          // query -> ?skip=10
+          query: {
+            skip: Joi.number().integer().default(0),
+            limit: Joi.number().integer().default(10),
+            name: Joi.string().min(3).max(100)
+          },
+          failAction: (req, headers, error) => { throw erro }
+        }
+      },
       handler: (req, headers) => {
         try {
           const { skip, limit, name } = req.query
           console.log(name);
-          let query = {}
-          if (name) query.name = name
+          let query = name ? { name } : {}
 
-          //if (isNaN(skip) || isNaN(limit)) throw Error('Query params NaN')
 
           return this._db.read(query, parseInt(skip), parseInt(limit)) // Hapi resolves promises
         } catch (error) {
