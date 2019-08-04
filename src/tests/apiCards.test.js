@@ -33,7 +33,7 @@ describe('API Cards', function () {
   })
 
   it('Should filter by name and limit by 2', async () => {
-    const NAME = 'Youssef'
+    const NAME = 'Obelisk The Tormentor'
     const res = await app.inject({
       method: 'GET',
       url: `/cards?skip=0&limit=2&name=${NAME}`
@@ -46,4 +46,15 @@ describe('API Cards', function () {
     deepEqual(data[1].name, NAME)
   })
 
+  it('Should filter just by a word in the name', async () => {
+    const NAME = 'The'
+    const res = await app.inject({
+      method: 'GET',
+      url: `/cards?name=${NAME}`
+    })
+
+    const statusCode = res.statusCode
+    const data = JSON.parse(res.payload)
+    ok(data[0].name, NAME)
+  })
 })

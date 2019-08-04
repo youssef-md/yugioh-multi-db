@@ -22,17 +22,15 @@ class CardRoutes extends BaseRoute {
             limit: Joi.number().integer().default(10),
             name: Joi.string().min(3).max(100)
           },
-          failAction: (req, headers, error) => { throw erro }
+          failAction: (req, headers, error) => { throw error }
         }
       },
       handler: (req, headers) => {
         try {
           const { skip, limit, name } = req.query
-          console.log(name);
-          let query = name ? { name } : {}
+          let query = name ? { name: { $regex: `.*${name}*.` } } : {}
 
-
-          return this._db.read(query, parseInt(skip), parseInt(limit)) // Hapi resolves promises
+          return this._db.read(query, skip, limit) // Hapi resolves promises
         } catch (error) {
           console.log('Internal error', error)
           return "Internal error in the server"
