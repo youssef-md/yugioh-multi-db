@@ -38,5 +38,9 @@ class CardRoutes extends BaseRoute {
       }
     }
   }
+
+  read() {
+
+  }
 }
 module.exports = CardRoutes
