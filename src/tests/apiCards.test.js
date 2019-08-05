@@ -70,6 +70,6 @@ describe.only('API Cards', function () {
     const statusCode = res.statusCode
     const { message } = JSON.parse(res.payload)
     ok(statusCode === 200)
-    deepEqual(message, "The cards was created with success")
+    deepEqual(message, "The card was created with success :)")
   })
 })
