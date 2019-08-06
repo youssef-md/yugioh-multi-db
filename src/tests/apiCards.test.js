@@ -10,7 +10,6 @@ describe.only('API Cards', function () {
     const res = await app.inject({ method: 'POST', url: '/cards', payload: JSON.stringify(MOCK_CARD_UPDATE) })
     const data = JSON.parse(res.payload)
     MOCK_ID = data._id
-    console.log(MOCK_ID);
   })
 
   it('Should list all cards in /cards', async () => {
@@ -78,17 +77,16 @@ describe.only('API Cards', function () {
   })
 
   it('Should update a card PATCH - /cards/:id', async () => {
-    const _id = MOCK_ID
-    const expected = { atk: 2000, def: 1200 }
+    const expected = { atk: '2000', def: '1200' }
     const res = await app.inject({
       method: 'PATCH',
-      url: `/cards/${_id}`,
+      url: `/cards/${MOCK_ID}`,
       payload: JSON.stringify(expected)
     })
+
     const statusCode = res.statusCode
     const data = JSON.parse(res.payload)
     ok(statusCode === 200)
-    deepEqual(data.message, 'The card was updated with success: )')
-
+    deepEqual(data.message, 'The card was updated with success :)')
   })
 })

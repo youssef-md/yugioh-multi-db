@@ -53,21 +53,57 @@ class CardRoutes extends BaseRoute {
             types: Joi.string().required().min(4).max(20),
             attribute: Joi.string().required().min(4).max(20),
             level: Joi.number().integer().required().default(0),
-            atk: Joi.number().integer().required().default(0),
-            def: Joi.number().integer().required().default(0)
+            atk: Joi.string().required().min(1).max(9),
+            def: Joi.string().required().min(1).max(9)
           }
         }
       },
       handler: async (req, headers) => {
         try {
-          const { _id, name, types, attribute, level, atk, def } = req.payload
-          const res = await this._db.create({ name, types, attribute, level, atk, def })
+          const { name, types, attribute, level, atk, def } = req.payload
+          const { _id } = await this._db.create({ name, types, attribute, level, atk, def })
           return {
             _id,
             message: "The card was created with success :)"
           }
         } catch (error) {
           console.log('Internal Error!', error)
+          return 'Internal Error!'
+        }
+      }
+    }
+  }
+
+  update() {
+    return {
+      path: '/cards/{id}',
+      method: 'PATCH',
+      config: {
+        validate: {
+          params: { id: Joi.string().required() },
+          payload: {
+            name: Joi.string().min(3).max(100),
+            types: Joi.string().min(4).max(20),
+            attribute: Joi.string().min(4).max(20),
+            level: Joi.number().integer().default(0),
+            atk: Joi.string().min(1).max(9),
+            def: Joi.string().min(1).max(9)
+          }
+        }
+      },
+      handler: async (req) => {
+        try {
+          const { id } = req.params
+          const { payload } = req
+          const updateDataString = JSON.stringify(payload)
+          const updateData = JSON.parse(updateDataString) // removing all undefined keys, since all the attrs are NOT required()
+
+          const res = await this._db.update(id, updateData)
+          const message = res.nModified === -1 ? 'It was NOT possible to update the card :(' : 'The card was updated with success :)'
+
+          return { message }
+        } catch (error) {
+          console.log('Internal Error', error)
           return 'Internal Error!'
         }
       }
