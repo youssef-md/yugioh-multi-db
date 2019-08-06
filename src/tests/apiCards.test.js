@@ -1,11 +1,16 @@
 const { deepEqual, ok } = require('assert')
-const { MOCK_CARD_CREATE } = require('./mocks')
+const { MOCK_CARD_CREATE, MOCK_CARD_UPDATE } = require('./mocks')
 const api = require('../api')
 let app = {}
+let MOCK_ID = null
 
 describe.only('API Cards', function () {
   this.beforeAll(async () => {
     app = await api
+    const res = await app.inject({ method: 'POST', url: '/cards', payload: JSON.stringify(MOCK_CARD_UPDATE) })
+    const data = JSON.parse(res.payload)
+    MOCK_ID = data._id
+    console.log(MOCK_ID);
   })
 
   it('Should list all cards in /cards', async () => {
@@ -59,7 +64,6 @@ describe.only('API Cards', function () {
     ok(data[0].name, NAME)
   })
 
-
   it('Should create a card POST /cards', async () => {
     const res = await app.inject({
       method: 'POST',
@@ -71,5 +75,20 @@ describe.only('API Cards', function () {
     const { message } = JSON.parse(res.payload)
     ok(statusCode === 200)
     deepEqual(message, "The card was created with success :)")
+  })
+
+  it('Should update a card PATCH - /cards/:id', async () => {
+    const _id = MOCK_ID
+    const expected = { atk: 2000, def: 1200 }
+    const res = await app.inject({
+      method: 'PATCH',
+      url: `/cards/${_id}`,
+      payload: JSON.stringify(expected)
+    })
+    const statusCode = res.statusCode
+    const data = JSON.parse(res.payload)
+    ok(statusCode === 200)
+    deepEqual(data.message, 'The card was updated with success: )')
+
   })
 })
