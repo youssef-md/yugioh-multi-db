@@ -7,6 +7,7 @@ let MOCK_ID = null
 describe.only('API Cards', function () {
   this.beforeAll(async () => {
     app = await api
+    await app.inject({ method: 'POST', url: '/cards', payload: JSON.stringify(MOCK_CARD_CREATE) })
     const res = await app.inject({ method: 'POST', url: '/cards', payload: JSON.stringify(MOCK_CARD_UPDATE) })
     const data = JSON.parse(res.payload)
     MOCK_ID = data._id
@@ -90,7 +91,7 @@ describe.only('API Cards', function () {
     deepEqual(data.message, 'The card was updated with success :)')
   })
 
-  it('Should delete a card DETE - /cards/:id', async () => {
+  it('Should delete a card DELETE - /cards/:id', async () => {
     const _id = MOCK_ID
     const res = await app.inject({
       method: 'DELETE',

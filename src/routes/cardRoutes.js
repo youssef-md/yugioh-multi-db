@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const Boom = require('boom')
 const BaseRoute = require('./base/baseRoute')
 
 const failAction = (req, headers, error) => { throw error }
@@ -31,11 +32,11 @@ class CardRoutes extends BaseRoute {
         try {
           const { skip, limit, name } = req.query
           let query = name ? { name: { $regex: `.*${name}*.` } } : {}
-
           return this._db.read(query, skip, limit) // Hapi resolves promises
+
         } catch (error) {
           console.log('Internal error', error)
-          return "Internal error in the server"
+          return Boom.internal()
         }
       }
     }
@@ -62,13 +63,11 @@ class CardRoutes extends BaseRoute {
         try {
           const { name, types, attribute, level, atk, def } = req.payload
           const { _id } = await this._db.create({ name, types, attribute, level, atk, def })
-          return {
-            _id,
-            message: "The card was created with success :)"
-          }
+          return { _id, message: "The card was created with success :)" }
+
         } catch (error) {
           console.log('Internal Error!', error)
-          return 'Internal Error!'
+          return Boom.internal()
         }
       }
     }
@@ -99,12 +98,13 @@ class CardRoutes extends BaseRoute {
           const updateData = JSON.parse(updateDataString) // removing all undefined keys, since all the attrs are NOT required()
 
           const res = await this._db.update(id, updateData)
-          const message = res.nModified === -1 ? 'It was NOT possible to update the card :(' : 'The card was updated with success :)'
+          return (res.nModified === -1)
+            ? Boom.preconditionFailed('It was NOT possible to update the card :(')
+            : { message: 'The card was updated with success :)' }
 
-          return { message }
         } catch (error) {
           console.log('Internal Error', error)
-          return 'Internal Error!'
+          return Boom.internal()
         }
       }
     }
@@ -124,11 +124,13 @@ class CardRoutes extends BaseRoute {
         try {
           const { id } = req.params
           const res = await this._db.delete(id)
-          const message = (res.n !== 1) ? 'It was not possible to remove this card :(' : 'The card was deleted with success :)'
-          return { message }
+          return (res.n !== 1)
+            ? Boom.preconditionFailed('It was not possible to remove this card :(')
+            : { message: 'The card was deleted with success :)' }
+
         } catch (error) {
           console.log('Internal Error', error)
-          return 'Internal Error'
+          return Boom.internal()
         }
       }
     }
