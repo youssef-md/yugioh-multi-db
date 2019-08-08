@@ -89,4 +89,18 @@ describe.only('API Cards', function () {
     ok(statusCode === 200)
     deepEqual(data.message, 'The card was updated with success :)')
   })
+
+  it('Should delete a card DETE - /cards/:id', async () => {
+    const _id = MOCK_ID
+    const res = await app.inject({
+      method: 'DELETE',
+      url: `/cards/${_id}`
+    })
+
+    const statusCode = res.statusCode
+    const data = JSON.parse(res.payload)
+
+    ok(statusCode === 200)
+    deepEqual(data.message, 'The card was deleted with success :)')
+  })
 })
