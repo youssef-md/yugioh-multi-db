@@ -109,5 +109,29 @@ class CardRoutes extends BaseRoute {
       }
     }
   }
+
+  delete() {
+    return {
+      path: '/cards/{id}',
+      method: 'DELETE',
+      config: {
+        validate: {
+          failAction,
+          params: { id: Joi.string().required() }
+        }
+      },
+      handler: async (req) => {
+        try {
+          const { id } = req.params
+          const res = await this._db.delete(id)
+          const message = (res.n !== 1) ? 'It was not possible to remove this card :(' : 'The card was deleted with success :)'
+          return { message }
+        } catch (error) {
+          console.log('Internal Error', error)
+          return 'Internal Error'
+        }
+      }
+    }
+  }
 }
 module.exports = CardRoutes
