@@ -15,6 +15,7 @@ class CardRoutes extends BaseRoute {
       path: '/cards',
       method: 'GET',
       config: {
+        tags: ['api'],
         validate: {
           // payload -> body
           // headers -> head
@@ -47,6 +48,7 @@ class CardRoutes extends BaseRoute {
       path: '/cards',
       method: 'POST',
       config: {
+        tags: ['api'],
         validate: {
           failAction,
           payload: {
@@ -78,6 +80,7 @@ class CardRoutes extends BaseRoute {
       path: '/cards/{id}',
       method: 'PATCH',
       config: {
+        tags: ['api'],
         validate: {
           params: { id: Joi.string().required() },
           payload: {
@@ -115,6 +118,7 @@ class CardRoutes extends BaseRoute {
       path: '/cards/{id}',
       method: 'DELETE',
       config: {
+        tags: ['api'],
         validate: {
           failAction,
           params: { id: Joi.string().required() }
