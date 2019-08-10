@@ -16,6 +16,8 @@ class CardRoutes extends BaseRoute {
       method: 'GET',
       config: {
         tags: ['api'],
+        description: 'List cards',
+        notes: 'You can paginate and filter the results',
         validate: {
           // payload -> body
           // headers -> head
@@ -49,6 +51,8 @@ class CardRoutes extends BaseRoute {
       method: 'POST',
       config: {
         tags: ['api'],
+        description: 'Create card',
+        notes: 'You can create a card by passing all the values',
         validate: {
           failAction,
           payload: {
@@ -81,6 +85,8 @@ class CardRoutes extends BaseRoute {
       method: 'PATCH',
       config: {
         tags: ['api'],
+        description: 'Update cards',
+        notes: 'You can update a card by passing its id and the values that you want to change',
         validate: {
           params: { id: Joi.string().required() },
           payload: {
@@ -119,6 +125,8 @@ class CardRoutes extends BaseRoute {
       method: 'DELETE',
       config: {
         tags: ['api'],
+        description: 'Delete card',
+        notes: 'You can delete a card by its id',
         validate: {
           failAction,
           params: { id: Joi.string().required() }
