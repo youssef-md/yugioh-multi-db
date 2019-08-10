@@ -4,7 +4,7 @@ const api = require('../api')
 let app = {}
 let MOCK_ID = null
 
-describe.only('API Cards', function () {
+describe('API Cards', function () {
   this.beforeAll(async () => {
     app = await api
     await app.inject({ method: 'POST', url: '/cards', payload: JSON.stringify(MOCK_CARD_CREATE) })
