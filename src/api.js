@@ -7,10 +7,11 @@ const Inert = require('inert')
 
 const yugiohSchema = require('./db/strategies/mongodb/schemas/yugiohSchema')
 const CardRoutes = require('./routes/cardRoutes')
+const AuthRoutes = require('./routes/authRoutes')
 
-const app = new Hapi.Server({
-  port: 5000
-})
+const app = new Hapi.Server({ port: 5000 })
+
+const JWT_SCRET = 'SEGREDAO_123'
 
 function mapRoutes(instance, methods) {
   // ['list', 'create', 'update', 'delete']
@@ -22,12 +23,8 @@ async function main() {
   const connection = Mongodb.connect()
   const context = new Context(new Mongodb(connection, yugiohSchema))
 
-  const swaggerOptions = {
-    info: {
-      title: 'API Cards',
-      version: 'v1.0',
-    }
-  }
+  const swaggerOptions = { info: { title: 'API Cards', version: 'v1.0', } }
+
   await app.register([
     Vision, Inert,
     {
@@ -36,8 +33,10 @@ async function main() {
     }
   ])
 
-  // needs destructuring to break the nested array of the returns from the methods -> [list(), create(), read(), update()]
-  app.route(mapRoutes(new CardRoutes(context), CardRoutes.methods()))
+  app.route([ // mapping the routes with its handler methods
+    ...mapRoutes(new CardRoutes(context), CardRoutes.methods()),
+    ...mapRoutes(new AuthRoutes(JWT_SCRET), AuthRoutes.methods())
+  ])
 
   await app.start()
   console.log('Server is running at', app.info.port)
