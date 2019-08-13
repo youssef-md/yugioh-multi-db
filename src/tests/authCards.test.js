@@ -3,7 +3,7 @@ const api = require('../api')
 
 let app = {}
 
-describe.only('Auth test suite', function () {
+describe('Auth test suite', function () {
   this.beforeAll(async () => {
     app = await api
   })
@@ -20,8 +20,6 @@ describe.only('Auth test suite', function () {
 
     const statusCode = res.statusCode
     const data = JSON.parse(res.payload)
-
-    console.log(data)
 
     deepEqual(statusCode, 200)
     ok(data.token.length > 10)

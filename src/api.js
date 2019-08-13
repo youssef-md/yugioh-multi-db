@@ -9,9 +9,11 @@ const yugiohSchema = require('./db/strategies/mongodb/schemas/yugiohSchema')
 const CardRoutes = require('./routes/cardRoutes')
 const AuthRoutes = require('./routes/authRoutes')
 
+const HapiJwt = require('hapi-auth-jwt2')
+const JWT_SECRET = 'SEGREDAO_123'
+
 const app = new Hapi.Server({ port: 5000 })
 
-const JWT_SCRET = 'SEGREDAO_123'
 
 function mapRoutes(instance, methods) {
   // ['list', 'create', 'update', 'delete']
@@ -26,16 +28,29 @@ async function main() {
   const swaggerOptions = { info: { title: 'API Cards', version: 'v1.0', } }
 
   await app.register([
-    Vision, Inert,
+    HapiJwt, Vision, Inert,
     {
       plugin: HapiSwagger,
       options: swaggerOptions
     }
   ])
 
+  app.auth.strategy('jwt', 'jwt', {
+    key: JWT_SECRET,
+    // options: {
+    //   expiresIn: 20
+    // },
+    validate: (data, req) => {
+      // check if the user still active
+      return { isValid: true }
+    }
+  })
+
+  app.auth.default('jwt')
+
   app.route([ // mapping the routes with its handler methods
     ...mapRoutes(new CardRoutes(context), CardRoutes.methods()),
-    ...mapRoutes(new AuthRoutes(JWT_SCRET), AuthRoutes.methods())
+    ...mapRoutes(new AuthRoutes(JWT_SECRET), AuthRoutes.methods())
   ])
 
   await app.start()
