@@ -1,8 +1,11 @@
 const Joi = require('joi')
 const Boom = require('boom')
 const BaseRoute = require('./base/baseRoute')
-
 const failAction = (req, headers, error) => { throw error }
+
+const headers = Joi.object({
+  authorization: Joi.string().required()
+}).unknown()
 
 class CardRoutes extends BaseRoute {
   constructor(db) {
@@ -28,6 +31,7 @@ class CardRoutes extends BaseRoute {
             limit: Joi.number().integer().default(10),
             name: Joi.string().min(3).max(100)
           },
+          headers,
           failAction
         }
       },
@@ -55,6 +59,7 @@ class CardRoutes extends BaseRoute {
         notes: 'You can create a card by passing all the values',
         validate: {
           failAction,
+          headers,
           payload: {
             name: Joi.string().required().min(3).max(100),
             types: Joi.string().required().min(4).max(20),
@@ -89,6 +94,7 @@ class CardRoutes extends BaseRoute {
         notes: 'You can update a card by passing its id and the values that you want to change',
         validate: {
           params: { id: Joi.string().required() },
+          headers,
           payload: {
             name: Joi.string().min(3).max(100),
             types: Joi.string().min(4).max(20),
@@ -129,6 +135,7 @@ class CardRoutes extends BaseRoute {
         notes: 'You can delete a card by its id',
         validate: {
           failAction,
+          headers,
           params: { id: Joi.string().required() }
         }
       },
