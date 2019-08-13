@@ -3,7 +3,7 @@ const api = require('../api')
 
 let app = {}
 
-describe('Auth test suite', function () {
+describe.only('Auth test suite', function () {
   this.beforeAll(async () => {
     app = await api
   })
