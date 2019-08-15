@@ -39,4 +39,21 @@ describe('Auth test suite', function () {
     deepEqual(statusCode, 200)
     ok(data.token.length > 10)
   })
+
+  it('Should return unauth when the user is invalid', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/login',
+      payload: {
+        username: 'Jozegin',
+        password: '123'
+      }
+    })
+    const statusCode = res.statusCode
+    const data = JSON.parse(res.payload)
+
+    ok(statusCode === 401)
+    deepEqual(data.error, "Unauthorized")
+
+  })
 })

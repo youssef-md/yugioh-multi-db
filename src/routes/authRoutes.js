@@ -6,11 +6,6 @@ const passwordHelper = require('../helpers/passwordHelper')
 
 const failAction = (req, headers, error) => { throw error }
 
-const USER = {
-  username: 'YoussefMuhamad',
-  password: '123123'
-}
-
 class AuthRoutes extends BaseRoute {
 
   constructor(secret, db) {
