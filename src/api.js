@@ -12,6 +12,9 @@ const AuthRoutes = require('./routes/authRoutes')
 const HapiJwt = require('hapi-auth-jwt2')
 const JWT_SECRET = 'SEGREDAO_123'
 
+const Postgres = require('./db/strategies/postgres/postgres')
+const userSchema = require('./db/strategies/postgres/schemas/userSchema')
+
 const app = new Hapi.Server({ port: 5000 })
 
 
@@ -24,6 +27,10 @@ async function main() {
 
   const connection = Mongodb.connect()
   const context = new Context(new Mongodb(connection, yugiohSchema))
+
+  const connectionPostgres = await Postgres.connect()
+  const model = await Postgres.defineModel(connection, userSchema)
+  const contextPostgres = new Context(new Postgres(connectionPostgres, model))
 
   const swaggerOptions = { info: { title: 'API Cards', version: 'v1.0', } }
 
@@ -50,7 +57,7 @@ async function main() {
 
   app.route([ // mapping the routes with its handler methods
     ...mapRoutes(new CardRoutes(context), CardRoutes.methods()),
-    ...mapRoutes(new AuthRoutes(JWT_SECRET), AuthRoutes.methods())
+    ...mapRoutes(new AuthRoutes(JWT_SECRET, contextPostgres), AuthRoutes.methods())
   ])
 
   await app.start()
