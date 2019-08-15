@@ -29,8 +29,8 @@ async function main() {
   const context = new Context(new Mongodb(connection, yugiohSchema))
 
   const connectionPostgres = await Postgres.connect()
-  const model = await Postgres.defineModel(connection, userSchema)
-  const contextPostgres = new Context(new Postgres(connectionPostgres, model))
+  const userModel = await Postgres.defineModel(connectionPostgres, userSchema)
+  const contextPostgres = new Context(new Postgres(connectionPostgres, userModel))
 
   const swaggerOptions = { info: { title: 'API Cards', version: 'v1.0', } }
 
