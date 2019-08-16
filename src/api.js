@@ -10,12 +10,12 @@ const CardRoutes = require('./routes/cardRoutes')
 const AuthRoutes = require('./routes/authRoutes')
 
 const HapiJwt = require('hapi-auth-jwt2')
-const JWT_SECRET = 'SEGREDAO_123'
+const JWT_SECRET = process.env.JWT_KEY
 
 const Postgres = require('./db/strategies/postgres/postgres')
 const userSchema = require('./db/strategies/postgres/schemas/userSchema')
 
-const app = new Hapi.Server({ port: 5000 })
+const app = new Hapi.Server({ port: process.env.PORT })
 
 
 function mapRoutes(instance, methods) {

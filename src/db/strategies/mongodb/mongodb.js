@@ -1,8 +1,7 @@
 const iCrud = require('../interfaces/interfaceCrud')
 const Mongoose = require('mongoose')
-require('dotenv').config()
 
-const connectionAddress = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@localhost:27017/yugioh`
+const connectionAddress = process.env.MONGODB_URL
 const STATUS = { 0: 'Disconnected', 1: 'Connected', 2: 'Connecting', 3: 'Disconnecting' }
 
 class MongoDB extends iCrud {

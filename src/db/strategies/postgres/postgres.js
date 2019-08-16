@@ -15,12 +15,15 @@ class Postgres extends iCrud {
   }
 
   static async connect() {
-    const connection = new Sequelize(
-      'yugioh',
-      process.env.POSTGRES_USERNAME,
-      process.env.POSTGRES_PASSWORD,
-      { host: 'localhost', dialect: 'postgres', quoteIdentifiers: false, operatorAliases: false, logging: false }
-    )
+    const connection = new Sequelize(process.env.POSTGRES_URL, {
+      operatorAliases: false,
+      logging: false,
+      quoteIdentifiers: false,
+      ssl: process.env.SSL_DB,
+      dialectOptions: {
+        ssl: process.env.SSL_DB
+      }
+    })
     return connection
   }
 
