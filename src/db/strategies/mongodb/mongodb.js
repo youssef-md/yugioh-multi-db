@@ -1,8 +1,9 @@
 const iCrud = require('../interfaces/interfaceCrud')
 const Mongoose = require('mongoose')
 
-const connectionAddress = process.env.MONGODB_URL
 const STATUS = { 0: 'Disconnected', 1: 'Connected', 2: 'Connecting', 3: 'Disconnecting' }
+console.log(process.env.MONGODB_URL)
+console.log(process.env.POSTGRES_URL)
 
 class MongoDB extends iCrud {
   constructor(connection, schema) {
@@ -19,7 +20,7 @@ class MongoDB extends iCrud {
   }
 
   static connect() {
-    Mongoose.connect(connectionAddress, { useNewUrlParser: true }, error => {
+    Mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, error => {
       if (!error) return
       console.log('Connection with MongoDB Failed!', error)
     })

@@ -1,9 +1,9 @@
 const { config } = require('dotenv')
 const { join } = require('path')
 const { ok } = require('assert')
-
 const env = process.env.NODE_ENV || "dev"
-ok(env === "prod" || env === "dev", "The env is invalid, or dev or prod")
+console.log(env)
+ok(env === "production" || env === "dev", "The env is invalid, or dev or production")
 
 const configPath = join(__dirname, './config', `.env.${env}`)
 config({ path: configPath })
