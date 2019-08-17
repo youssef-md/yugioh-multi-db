@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha src/tests -w",
-    "test:prod": "cross-env NODE_ENV=prod npm t"
+    "test:prod": "cross-env NODE_ENV=prod npm t",
+    "prod": "cross-env NODE_ENV=prod node api.js"
   },
   "repository": {
     "type": "git",
